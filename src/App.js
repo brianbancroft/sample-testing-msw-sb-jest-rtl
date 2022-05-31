@@ -1,7 +1,13 @@
-import Layout from "./components/Layout";
+import Surround from "./Layouts/Surround";
+
+import HomePage from "./Layouts/HomePage";
 
 function App() {
-  return <Layout>App</Layout>;
+  return (
+    <Surround>
+      <HomePage />
+    </Surround>
+  );
 }
 
 export default App;

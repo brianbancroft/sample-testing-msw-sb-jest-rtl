@@ -1602,6 +1602,11 @@
     "minimatch" "^3.1.2"
     "strip-json-comments" "^3.1.1"
 
+"@faker-js/faker@^7.1.0":
+  "integrity" "sha512-G+EvE29QUd9/6GTrwA/TK2AiN79W4ZG6kyJqj2RAqUqEd8A8ICnjA3Rj3F2IaaA+sq6WJzs4lh8GJJRDG1UH7A=="
+  "resolved" "https://registry.npmjs.org/@faker-js/faker/-/faker-7.1.0.tgz"
+  "version" "7.1.0"
+
 "@gar/promisify@^1.0.1":
   "integrity" "sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw=="
   "resolved" "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz"
