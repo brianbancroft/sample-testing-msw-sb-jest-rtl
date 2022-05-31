@@ -6,10 +6,15 @@ export const handlers = [
     // Persist user's authentication in the session
     sessionStorage.setItem("is-authenticated", "true");
 
-    return res(
-      // Respond with a 200 status code
-      ctx.status(200)
-    );
+    if (req.body.password === "badpassword") {
+      return res(ctx.status(401), ctx.json({ message: "unauthorized" }));
+    } else {
+      return res(
+        // Respond with a 200 status code
+        ctx.status(200),
+        ctx.json({ params: req.params, body: req.body })
+      );
+    }
   }),
 
   rest.get("/user", (req, res, ctx) => {

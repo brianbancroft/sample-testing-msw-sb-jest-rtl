@@ -1,14 +1,12 @@
 import React from "react";
 
 import PropTypes from "prop-types";
+import Header from "../../components/Header";
 
 function Surround({ children }) {
   return (
     <>
-      <header className="py-4 text-xl bg-black text-white px-5 justify-between flex">
-        <div>fancy logo</div>
-        <div>login</div>
-      </header>
+      <Header />
       {children}
       <footer className="bg-emerald-700 text-white h-24">footer</footer>
     </>
