@@ -10,10 +10,16 @@ export default function FormLogin({ handleClose }) {
   async function handleSubmit(event) {
     event.preventDefault();
     setLoading(true);
-    const foo = await post("/login", {
-      username: event.target.username.value,
-      password: event.target.password.value,
-    }).catch((error) => {
+
+    const { username, password } = event.target.elements;
+
+    try {
+      await post("/login", {
+        username: username.value,
+        password: password.value,
+      });
+      handleClose();
+    } catch (error) {
       if ((error.message = "Request failed with status code 401")) {
         setInvalidUsernamePassword(true);
         setLoading(false);
@@ -21,12 +27,8 @@ export default function FormLogin({ handleClose }) {
         alert("unknown error in auth");
         setLoading(false);
       }
-    });
-
-    if (foo.status === 200) {
-      handleClose();
     }
-    setLoading(false);
+    handleClose();
   }
 
   return (
@@ -44,6 +46,7 @@ export default function FormLogin({ handleClose }) {
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="username"
+          name="username"
           type="text"
           placeholder="Username"
           required
@@ -61,6 +64,7 @@ export default function FormLogin({ handleClose }) {
             invalidUsernamePassword ? "border-red-500" : ""
           } rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline`}
           id="password"
+          name="password"
           type="password"
           placeholder="******************"
           required
