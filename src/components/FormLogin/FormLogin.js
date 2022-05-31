@@ -1,9 +1,8 @@
 import { useState } from "react";
-
-import { post } from "axios";
+import PropTypes from "prop-types";
 
 /** Handles validation and authentication */
-export default function FormLogin({ handleClose }) {
+export default function FormLogin(props) {
   const [loading, setLoading] = useState(false);
   const [invalidUsernamePassword, setInvalidUsernamePassword] = useState(false);
 
@@ -14,21 +13,37 @@ export default function FormLogin({ handleClose }) {
     const { username, password } = event.target.elements;
 
     try {
-      await post("/login", {
-        username: username.value,
-        password: password.value,
+      const response = await fetch("/login", {
+        method: "POST",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        redirect: "follow",
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify({
+          username: username.value,
+          password: password.value,
+        }),
       });
-      handleClose();
+      await response.json();
+
+      if (response.status === 200) {
+        props.handleClose();
+      } else {
+        setInvalidUsernamePassword(true);
+        setLoading(false);
+      }
     } catch (error) {
+      console.log("Error detected");
+
       if ((error.message = "Request failed with status code 401")) {
         setInvalidUsernamePassword(true);
         setLoading(false);
-      } else {
-        alert("unknown error in auth");
-        setLoading(false);
       }
     }
-    handleClose();
   }
 
   return (
@@ -89,3 +104,7 @@ export default function FormLogin({ handleClose }) {
     </form>
   );
 }
+
+FormLogin.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+};

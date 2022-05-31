@@ -13,8 +13,7 @@ it("Renders without error", () => {
 });
 
 const setup = async () => {
-  let handleCloseTriggered = false;
-  const handleClose = () => (handleCloseTriggered = true);
+  const handleClose = jest.fn();
   const utils = await render(<Primary handleClose={handleClose} />);
   const usernameField = screen.getByLabelText(/Username/);
   const passwordField = screen.getByLabelText(/Password/);
@@ -28,7 +27,6 @@ const setup = async () => {
     submitButton,
     handleClose,
     ...utils,
-    handleCloseTriggered,
   };
 };
 
@@ -44,26 +42,22 @@ describe("form elements", () => {
 
 describe("With a correct username and password", () => {
   test("The handleClose function prop is triggered", async () => {
-    const {
-      usernameField,
-      passwordField,
-      submitButton,
-      handleClose,
-      handleCloseTriggered,
-    } = await setup();
+    const { usernameField, passwordField, submitButton, handleClose } =
+      await setup();
 
     fireEvent.change(usernameField, { target: { value: faker.lorem.word() } });
     fireEvent.change(passwordField, { target: { value: faker.lorem.word() } });
 
     fireEvent.click(submitButton);
 
-    expect(handleCloseTriggered).toBe(true);
+    expect(handleClose).toHaveBeenCalled();
   });
 });
 
 describe("With an incorrect password that returns a 401 response", () => {
   test("An error appears", async () => {
-    const { usernameField, passwordField, submitButton } = await setup();
+    const { usernameField, passwordField, submitButton, handleClose } =
+      await setup();
 
     fireEvent.change(usernameField, { target: { value: faker.lorem.word() } });
     // This password triggers a bad password response
@@ -74,5 +68,6 @@ describe("With an incorrect password that returns a 401 response", () => {
     expect(
       await screen.findByText(/Invalid username or password/)
     ).toBeInTheDocument();
+    expect(handleClose).not.toHaveBeenCalled();
   });
 });
