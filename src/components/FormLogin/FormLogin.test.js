@@ -1,4 +1,4 @@
-import { screen, fireEvent } from "@testing-library/react";
+import { screen, fireEvent, waitFor } from "@testing-library/react";
 
 import { faker } from "@faker-js/faker";
 import { render } from "@testing-library/react";
@@ -48,9 +48,9 @@ describe("With a correct username and password", () => {
     fireEvent.change(usernameField, { target: { value: faker.lorem.word() } });
     fireEvent.change(passwordField, { target: { value: faker.lorem.word() } });
 
-    fireEvent.click(submitButton);
+    await fireEvent.click(submitButton);
 
-    expect(handleClose).toHaveBeenCalled();
+    await waitFor(() => expect(handleClose).toHaveBeenCalled());
   });
 });
 

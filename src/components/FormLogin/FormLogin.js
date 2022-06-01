@@ -13,6 +13,7 @@ export default function FormLogin(props) {
     const { username, password } = event.target.elements;
 
     try {
+      console.log("before fetch");
       const response = await fetch("/login", {
         method: "POST",
         mode: "cors",
@@ -29,20 +30,17 @@ export default function FormLogin(props) {
         }),
       });
       await response.json();
+      console.log("After fetch");
 
       if (response.status === 200) {
+        console.log("before handle close");
         props.handleClose();
       } else {
         setInvalidUsernamePassword(true);
         setLoading(false);
       }
     } catch (error) {
-      console.log("Error detected");
-
-      if ((error.message = "Request failed with status code 401")) {
-        setInvalidUsernamePassword(true);
-        setLoading(false);
-      }
+      alert("Error detected", error);
     }
   }
 
