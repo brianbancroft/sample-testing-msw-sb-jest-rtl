@@ -1,4 +1,4 @@
-# Bork de Bork Bork Bork
+# Use Storybook for Interaction Testing
 
 This is a sample of how to use Storybook as the source of truth for interaction testing. 
 
